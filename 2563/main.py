@@ -1,7 +1,7 @@
-def put_paper():
+def put_paper(ta):
   papers.append(list(map(int, input().split())))
-  total_area += 100
-  return 
+  ta += 100
+  return ta
 
 def get_x():
   if x1 < x2:
@@ -23,11 +23,11 @@ def get_y():
 
 total_area = 0
 papers = []
-put_paper()
 N = int(input())
+total_area = put_paper(total_area)
 
 for i in range(N-1):
-  put_paper()
+  total_area = put_paper(total_area)
   x1, y1 = papers[0][0], papers[0][1]
   x2, y2 = papers[-1][0], papers[-1][1]
   if x1+10 <= x2 or x1 >= x2+10 or y1+10 <= y2 or y1 >= y2+10:
