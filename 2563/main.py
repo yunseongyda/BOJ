@@ -1,9 +1,18 @@
-def put_paper(ta):
-  papers.append(list(map(int, input().split())))
+def put_paper(ta, n):
+  papers[n] = list(map(int, input().split()))
   ta += 100
   return ta
 
-def get_x():
+def checkOverlap(rec, prev):
+  x1, y1 = rec[0], rec[1]
+  x2, y2 = prev[0], prev[1]
+  if x2 >= x1+10 or y2 >= y1+10 or x2+10 <= x1 or y2+10 <= y1:
+    return 0
+  return 1
+
+def get_x(rec, prev):
+  x1, y1 = rec[0], rec[1]
+  x2, y2 = prev[0], prev[1]
   if x1 < x2:
     x = x1+10 - x2
   elif x1 > x2:
@@ -12,7 +21,9 @@ def get_x():
     x = x1+10 - x1
   return x
 
-def get_y():
+def get_y(rec, prev):
+  x1, y1 = rec[0], rec[1]
+  x2, y2 = prev[0], prev[1]
   if y1 < y2:
     y = y1+10 - y2
   elif y1 > y2:
@@ -24,16 +35,13 @@ def get_y():
 total_area = 0
 papers = []
 N = int(input())
-total_area = put_paper(total_area)
+papers = [[0,0] for i in range(N)]
+total_area = put_paper(total_area, 0)
 
-for i in range(N-1):
-  total_area = put_paper(total_area)
-  x1, y1 = papers[0][0], papers[0][1]
-  x2, y2 = papers[-1][0], papers[-1][1]
-  if x1+10 <= x2 or x1 >= x2+10 or y1+10 <= y2 or y1 >= y2+10:
-    papers.pop(0)
-    continue
-  else:
-    total_area -= get_x() * get_y()
+for i in range(1, N):
+  total_area = put_paper(total_area, i)
+  for j in range(1, i+1):
+    if checkOverlap(papers[-1], papers[-j-1]):
+      total_area -= get_x(papers[-1], papers[-j-1]) * get_y(papers[-1], papers[-j-1])
     
 print(total_area)
