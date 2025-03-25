@@ -1,10 +1,15 @@
 def getRemainder(n,b):
-  remainders.append(chr(ord('A')+(n%b-10)))
+  remainders.append(n%b)
   if n < b:
-    return 0
+    return
   return getRemainder(n//b, b)
 
 N, B = map(int, input().split())
 remainders = []
 getRemainder(N,B)
-print(''.join(remainders))
+
+for i in remainders:
+  if i >= 10:
+    remainders[remainders.index(i)] = chr(ord('A')+i-10)
+
+print(''.join(map(str, remainders))[::-1])
