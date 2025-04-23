@@ -1,13 +1,14 @@
 N = int(input())
-files = []
+files = {}
 
 for _ in range(N):
-  files.append(input().split('.')[1])
+  file = input().split('.')[1]
+  if file in files:
+    files[file] += 1
+  else:
+    files[file] = 1
 
-setFiles = set(files)
-setFiles = list(setFiles)
-setFiles.sort()
-files.sort()
+sorted_files = sorted(files.items(), key=lambda x: x[0])
 
-for ext in setFiles:
-  print(ext, files.count(ext))
+for key, value in sorted_files:
+  print(key, value)
